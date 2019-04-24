@@ -27,19 +27,19 @@ module.exports = {
   },
   devServer: {
     before(app) {
-      app.get('/seller', function (req, res) {
+      app.get('/api/seller', function (req, res) {
         res.json({
           errno: 0,
           data: seller
         })
       })
-      app.get('/goods', function (req, res) {
+      app.get('/api/goods', function (req, res) {
         res.json({
           errno: 0,
           data: goods
         })
       })
-      app.get('/ratings', function (req, res) {
+      app.get('/api/ratings', function (req, res) {
         res.json({
           errno: 0,
           data: ratings
@@ -50,6 +50,7 @@ module.exports = {
   chainWebpack(config) {
     config.resolve.alias
       .set('components', resolve('src/components'))
-      .set('common', resolve('scr/common'))
+      .set('common', resolve('src/common'))
+      .set('api', resolve('src/api'))
   }
 }
