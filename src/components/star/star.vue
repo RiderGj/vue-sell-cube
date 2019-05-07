@@ -11,9 +11,9 @@
 
 <script>
 const LENGTH = 5
-const CLS_ON = "on"
-const CLS_OFF = "off"
-const CLS_HALF = "half"
+const CLS_ON = 'on'
+const CLS_OFF = 'off'
+const CLS_HALF = 'half'
 
 export default {
   props: {
@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     starType() {
-      return "star-" + this.size
+      return 'star-' + this.size
     },
     itemClasses() {
       let result = []
@@ -34,18 +34,18 @@ export default {
       const integer = Math.floor(score)
       const hasDecimal = score % 1 !== 0
       for (let i = 0; i < integer; i++) {
-          result.push(CLS_ON)
-        }
-        if (hasDecimal) {
-          result.push(CLS_HALF)
-        }
-        while (result.length < LENGTH) {
-          result.push(CLS_OFF)
-        }
-        return result
+        result.push(CLS_ON)
+      }
+      if (hasDecimal) {
+        result.push(CLS_HALF)
+      }
+      while (result.length < LENGTH) {
+        result.push(CLS_OFF)
+      }
+      return result
     }
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>

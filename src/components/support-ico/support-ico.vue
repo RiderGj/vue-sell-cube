@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     iconCls() {
-      const classMap = ['decrease', 'discount', 'guarantee', 'invoice']
-      return `icon-${this.number} ${classMap[this.type]}`
+      const classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special']
+      return `icon-${this.size} ${classMap[this.type]}`
     }
   }
 }
@@ -67,6 +67,10 @@ export default {
   &.invoice {
     bg-image('invoice_2');
   }
+
+  &.special {
+    bg-image('special_2');
+  }
 }
 
 .icon-3 {
@@ -89,6 +93,10 @@ export default {
   &.invoice {
     bg-image('invoice_3');
   }
+
+  &.special {
+    bg-image('special_3');
+  }
 }
 
 .icon-4 {
@@ -110,6 +118,10 @@ export default {
 
   &.invoice {
     bg-image('invoice_4');
+  }
+
+  &.special {
+    bg-image('special_4');
   }
 }
 </style>

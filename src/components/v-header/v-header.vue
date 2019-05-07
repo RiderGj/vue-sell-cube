@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" @click="showDetail">
     <div class="content-wrapper">
       <div class="avatar">
         <img width="64" height="64" :src="seller.avatar">
@@ -46,6 +46,16 @@ export default {
   },
   components: {
     SupportIco
+  },
+  methods: {
+    showDetail() {
+      this.headerDetailCmp = this.headerDetailCmp || this.$createHeaderDetail({
+        $props: {
+          seller: 'seller'
+        }
+      })
+      this.headerDetailCmp.show()
+    }
   }
 }
 </script>
