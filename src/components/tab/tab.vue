@@ -1,28 +1,27 @@
 <template>
   <div class="tab">
-    <cube-tab-bar
-      v-model="selectedTab"
-      :data="tabs"
-      :useTransition="true"
-      :showSlider="true"
-      ref="tabBar"
-    ></cube-tab-bar>
-    <div class="slide">
+    <div class="tabHead">
+      <cube-tab-bar
+        v-model="selectedTab"
+        :data="tabs"
+        :useTransition="false"
+        :showSlider="true"
+        ref="tabBar"
+      ></cube-tab-bar>
+    </div>
+    <div class="tabSlide">
       <cube-slide
         :initialIndex="index"
         :loop="false"
         :showDots="false"
         :auto-play="false"
         ref="slide"
+        :options="slideOptions"
+        @change="changeTab"
+        @scroll="onScroll"
       >
-        <cube-slide-item>
-          <goods></goods>
-        </cube-slide-item>
-        <cube-slide-item>
-          <ratings></ratings>
-        </cube-slide-item>
-        <cube-slide-item>
-          <seller></seller>
+        <cube-slide-item v-for="(tab, index) of tabs" :key="index">
+          <component :is="tab.component" :data="tab.data" ref="component"></component>
         </cube-slide-item>
       </cube-slide>
     </div>
@@ -30,22 +29,29 @@
 </template>
 
 <script>
-import Goods from 'components/goods/goods'
-import Ratings from 'components/ratings/ratings'
-import Seller from 'components/seller/seller'
-
 export default {
   name: 'tab',
+  props: {
+    seller: {},
+    tabs: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    initialIndex: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
-      index: 0,
-      tabs: [{
-        label: '商品'
-      }, {
-        label: '评价'
-      }, {
-        label: '商家'
-      }]
+      index: this.initialIndex,
+      slideOptions: {
+        listenScroll: true,
+        probeType: 3,
+        directionLockThreshold: 0
+      }
     }
   },
   computed: {
@@ -58,10 +64,23 @@ export default {
       }
     }
   },
-  components: {
-    Goods,
-    Ratings,
-    Seller
+  mounted() {
+    this.changeTab(this.index)
+  },
+  methods: {
+    changeTab(current) {
+      this.index = current
+      const comp = this.$refs.component[current]
+      comp.getGoods && comp.getGoods()
+    },
+    onScroll(pos) {
+      // console.log(pos.x)
+      // console.log(this.$refs)
+      const tabWidth = this.$refs.tabBar.$el.clientWidth
+      const slideWidth = this.$refs.slide.slide.scrollerWidth
+      const transform = -pos.x / slideWidth * tabWidth
+      this.$refs.tabBar.setSliderTransform(transform)
+    }
   }
 }
 </script>
@@ -74,5 +93,13 @@ export default {
     padding: 10px 0;
   }
 
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .tabSlide {
+    flex: 1;
+    overflow hidden
+  }
 }
 </style>
